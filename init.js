@@ -24,9 +24,17 @@ const client = new Client({
 });
 
 client.connect();
-client.end();
 
 function createUser(uname, email, upassword) {
-  const sql = "INSERT INTO user_data(uname, email, upassword) VALUES('" + uname + "', '" + email + "', '" + upassword + "');";
+  // const sql = "INSERT INTO user_data(uname, email, upassword) VALUES('" + uname + "', '" + email + "', '" + upassword + "');";
+  const sql = "INSERT INTO user_data(uname, email, upassword) VALUES($1, $2, $3)";
   console.log(sql);
+  client.query(sql, [uname, email, upassword], (err, res) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(res);
+    }
+    client.end();
+  });
 }
